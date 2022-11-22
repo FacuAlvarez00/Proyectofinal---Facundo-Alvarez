@@ -1,49 +1,49 @@
 const productos = [
     {
         id: 1,
-        nombre: "Portaretratos papa",
+        nombre: "Papa te amo",
         cantidad: 1,
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, at?",
+        desc: "Lorem ipsum dolor sit amet consectetur",
         precio: 1200,
         img: './img/1.png'
     },
     {
         id: 2,
-        nombre: "ITEM 2",
+        nombre: "Super mama",
         cantidad: 1,
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, at?",
+        desc: "Lorem ipsum dolor sit amet consectetur",
         precio: 1800,
         img: './img/2.jpg'
     },
     {
         id: 3,
-        nombre: "ITEM 3",
+        nombre: "Mama tres fotos",
         cantidad: 1,
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, at?",
+        desc: "Lorem ipsum dolor sit amet consectetur",
         precio: 500,
         img: './img/3.jpg'
     },
     {
         id: 4,
-        nombre: "ITEM 4",
+        nombre: "Te amo",
         cantidad: 1,
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, at?",
+        desc: "Lorem ipsum dolor sit amet consectetur",
         precio: 700,
         img: './img/4.jpg'
     },
     {
         id: 5,
-        nombre: "ITEM 5",
+        nombre: "Familia",
         cantidad: 1,
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, at?",
+        desc: "Lorem ipsum dolor sit amet consectetur",
         precio: 1350,
         img: './img/5.jpg'
     },
     {
         id: 6,
-        nombre: "ITEM 6",
+        nombre: "Abuelos",
         cantidad: 1,
-        desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, at?",
+        desc: "Lorem ipsum dolor sit amet consectetur",
         precio: 3500,
         img: './img/6.jpg'
     },
