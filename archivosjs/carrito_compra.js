@@ -13,11 +13,11 @@ productos.forEach((product) => {
     <h3 class="texto_card">${product.nombre}</h3>
     <p class="texto_card">${product.desc}</p>
     <p class="texto_card">PRECIO: $${product.precio} </p>
-  
     `
     contenido.append(content)
 
     let comprar = document.createElement("button")
+    comprar.className = ("boton_card")
     comprar.innerText = "COMPRAR"
     content.append(comprar)
     comprar.addEventListener("click", () => {

@@ -26,6 +26,7 @@ p{
     top: 0px;
     color: black;
 }
+
 #contenido{
     display: grid;
     grid-template-columns: 25% 25% 25%;
@@ -45,6 +46,16 @@ p{
     text-align: center;
     margin: 10px 0;
 }
+.boton_card{
+    border-style: none;
+    color: white;
+    font-size: 15px;
+    background-color: brown;
+    width: 100px;
+    height: 30px;
+}
+
+
 .modal_wraper{
     display: flex;
     flex-direction: column;
