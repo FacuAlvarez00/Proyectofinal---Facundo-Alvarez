@@ -23,10 +23,14 @@ p{
 #ver_carrito{
     position: relative;
     left: 1560px;
-    top: 0px;
+    top: 7px;
     color: black;
+    cursor: pointer;
+    transition: 0.3s;
 }
-
+#ver_carrito:hover{
+    color: white;
+}
 #contenido{
     display: grid;
     grid-template-columns: 25% 25% 25%;
@@ -53,6 +57,7 @@ p{
     background-color: brown;
     width: 100px;
     height: 30px;
+
 }
 
 
@@ -71,6 +76,8 @@ p{
     position: absolute;
     z-index: 150;
     width: 440px;
+    /* height: 678px; */
+    
 
 }
 .modal_header{
@@ -120,11 +127,13 @@ p{
 .pp{
     font-size: 18px;
 }
-i{
+ i{
     position: relative;
     bottom: 160px;
     left: 235px;
-}
+    width: 14px;
+    height: 16px;
+} 
 
 .parrafo_total{
     font-size: 19px;
@@ -153,7 +162,7 @@ i{
 }
 
 .carrito_vacio{
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
 }
 .modal_cerrar{
@@ -168,3 +177,12 @@ i{
     cursor: pointer;
 }
 
+.boton_confirm{
+    margin: 0 10px;
+}
+.boton_cancel{
+    margin: 0 10px;
+}
+.parrafo_compra{
+    font-size: 22px;
+}

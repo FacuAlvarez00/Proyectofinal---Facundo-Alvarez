@@ -1,57 +1,74 @@
+
 let carrito = JSON.parse(localStorage.getItem("carrito_compras")) || []
 
+let productos = []
 
 const ver_carrito = document.getElementById("ver_carrito")
 const modal_container = document.getElementById("modal_container")
 const contenido = document.getElementById("contenido")
+let carrito_ventana = document.getElementsByClassName("modal_content")
 
-productos.forEach((product) => {
-    let content = document.createElement("div")
-    content.className = "items"
-    content.innerHTML = `
-    <img class="images_card" src="${product.img}">
-    <h3 class="texto_card">${product.nombre}</h3>
-    <p class="texto_card">${product.desc}</p>
-    <p class="texto_card">PRECIO: $${product.precio} </p>
-    `
-    contenido.append(content)
-
-    let comprar = document.createElement("button")
-    comprar.className = ("boton_card")
-    comprar.innerText = "COMPRAR"
-    content.append(comprar)
-    comprar.addEventListener("click", () => {
-
-
-
-        const repetido = carrito.some(id_repetido)
-        function id_repetido(id_repetido) {
-            return id_repetido.id === product.id
-        }
-
-        if (repetido) {
-            carrito.map((prod) => {
-                if (prod.id === product.id) {
-                    prod.cantidad++;
-                }
-            })
-        }
-        else {
-            carrito.push({
-                id: product.id,
-                nombre: product.nombre,
-                cantidad: product.cantidad,
-                desc: product.desc,
-                precio: product.precio,
-                img: product.img,
-            })
-
-        }
-        /* guardarStorage() */
-        pintarCarrito()
+/* Cargo el JSON */
+fetch("/archivosjs/productos.json")
+    .then(function (res) {
+        return res.json()
     })
-})
-console.log(carrito)
+    .then(function (resultado) {
+        for (const key of resultado) {
+            productos.push(key)
+        }
+        dibujar_cartas()
+    })
+
+/* Pinto los productos del json */
+function dibujar_cartas() {
+    productos.forEach((product) => {
+        let content = document.createElement("div")
+        content.className = "items"
+        content.innerHTML = `
+        <img class="images_card" src="${product.img}">
+        <h3 class="texto_card">${product.nombre}</h3>
+        <p class="texto_card">${product.desc}</p>
+        <p class="texto_card">PRECIO: $${product.precio} </p>
+        `
+        contenido.append(content)
+
+        let comprar = document.createElement("button")
+        comprar.className = ("boton_card")
+        comprar.innerText = "COMPRAR"
+        content.append(comprar)
+        comprar.addEventListener("click", () => {
+
+            /* No dejo que los productos se repitan */
+            const repetido = carrito.some(id_repetido)
+            function id_repetido(id_repetido) {
+                return id_repetido.id === product.id
+            }
+            if (repetido) {
+                carrito.map((prod) => {
+                    if (prod.id === product.id) {
+                        prod.cantidad++;
+                    }
+                })
+            }
+            else {
+                carrito.push({
+                    id: product.id,
+                    nombre: product.nombre,
+                    cantidad: product.cantidad,
+                    desc: product.desc,
+                    precio: product.precio,
+                    img: product.img,
+                })
+            }
+            guardarStorage()
+            pintarCarrito()
+        })
+    })
+
+}
+
+
 
 
 /* Dibujar el carrito*/
@@ -73,13 +90,13 @@ const pintarCarrito = () => {
                     `
     modal_container.append(modalheader)
 
-    if (carrito.length >= 1){
+    if (carrito.length >= 1) {
         modalheader.className = "border_modal"
     }
-    else{
+    else {
         modalheader.className = "modal_header"
     }
-    
+
 
 
     /*  modal_container.append(referencia)*/
@@ -94,7 +111,9 @@ const pintarCarrito = () => {
     modalBoton.addEventListener("click", () => {
         modal_container.style.display = "none"
     })
-    console.log(carrito)
+
+
+    /* dibujo cada producto que compro */
     carrito.forEach((product) => {
         let carrito_container = document.createElement("div");
 
@@ -113,16 +132,8 @@ const pintarCarrito = () => {
                         `
         modal_container.append(carrito_container);
 
-        /*    const remover_objeto = document.createElement("i")
-            remover_objeto.className = "fa-solid fa-trash remover_objeto"
-            carrito_container.append(remover_objeto)
-    
-            remover_objeto.addEventListener("click", eliminar_producto)
-        */
     })
 
-    /* COMPRA FINAL */
-    
 
     const precio_total = carrito.reduce((acc, el) => acc + el.precio * el.cantidad, 0)
     const total = document.createElement("div")
@@ -135,7 +146,7 @@ const pintarCarrito = () => {
     }
     else
         total.innerHTML = `
-                    <p class = "carrito_vacio">TU CARRITO ESTA VACIO</p>
+                    <p class = "carrito_vacio">-TU CARRITO ESTA VACIO-</p>
     `
     modal_container.append(total)
 
@@ -162,8 +173,8 @@ const pintarCarrito = () => {
 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-            confirmButton: '',
-            cancelButton: ''
+            confirmButton: 'btn btn-success boton_confirm',
+            cancelButton: 'btn btn-danger boton_cancel'
         },
         buttonsStyling: false
     })
@@ -172,18 +183,19 @@ const pintarCarrito = () => {
         e.preventDefault()
         swalWithBootstrapButtons.fire({
             title: '¿Proceder con la compra?',
-            html: `<p>El total a pagar es $ ${precio_total}</p>`,
+            html: `<p class="parrafo_compra">El total a pagar es $${precio_total}</p>`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Finalizar compra',
-            cancelButtonText: 'Seguir comprando',
+            cancelButtonText: 'Ahora no',
             reverseButtons: false,
         }).then((result) => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                     'Gracias por tu compra!',
                     carrito.length = 0,
-                    pintarCarrito()
+                    pintarCarrito(),
+                    guardarStorage()
                 )
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
@@ -194,33 +206,21 @@ const pintarCarrito = () => {
             }
         })
     }
-
-
 }
-
-
-
-
-
 
 ver_carrito.addEventListener("click", pintarCarrito)
-const eliminar_producto = () => {
-    const id_producto = carrito.find((producto) => producto.id)
-    carrito = carrito.filter((id_carrito) => {
-        return id_carrito !== id_producto
-    })
 
-    pintarCarrito()
+/* Guardar contenido del carrito en el storage*/
+const guardarStorage = () => {
+    localStorage.setItem("carrito_compras", JSON.stringify(carrito))
 }
 
-/* const guardarStorage = () =>{
-localStorage.setItem("carrito_compras", JSON.stringify(carrito))
-} */
-
+/* Borrar productos del carrito*/
 const eliminar_productoo = (idProd) => {
     const item = carrito.find((productos) => productos.id === idProd)
     const indice = carrito.indexOf(item)
     carrito.splice(indice, 1)
     pintarCarrito();
+    guardarStorage()
 }
 
